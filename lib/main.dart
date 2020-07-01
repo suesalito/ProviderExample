@@ -36,6 +36,7 @@ class Level2 extends StatelessWidget {
       children: [
         MyTextField(),
         Level3(),
+        MyTextField2(),
       ],
     );
   }
@@ -52,30 +53,41 @@ class MyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //return Text(Provider.of<Data>(context, listen: true).data);
-    // return Consumer<Data>(
-    //   builder: (context, data, child) {
-    //     return Text(data.data);
-    //   },
-    // );
-    return Text(Provider.of<Data>(context, listen: false).data);
+    return Consumer<Data>(
+      builder: (context, data, child) {
+        return Text(data.data);
+      },
+    );
+    //return Text(Provider.of<Data>(context, listen: false).data);
   }
 }
+
+// ** 2 examples how to call textfield (from MyTextField and MyTextField2 classes)
+// and update the value back to the Data.data
+// seems like the Consumer version is newer.
 
 class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //   return Consumer<Data>(
-    //     builder: (context, data, child) {
-    //       return TextField(
-    //         onChanged: (newText) {
-    //           print(newText);
-    //           // this is called to change the txt of the Data class.
-    //           data.changeString(newText);
-    //         },
-    //       );
-    //     },
-    //   );
-    // }
+    //Consumer trick that will probably work in any cases.
+    return Consumer<Data>(
+      builder: (context, data, child) {
+        return TextField(
+          onChanged: (newText) {
+            print(newText);
+            // this is called to change the txt of the Data class.
+            data.changeString(newText);
+          },
+        );
+      },
+    );
+  }
+}
+
+class MyTextField2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // This option below is work to call method.
     return TextField(
       onChanged: (newText) {
         print(newText);
